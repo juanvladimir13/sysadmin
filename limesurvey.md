@@ -1,28 +1,27 @@
 # Instalacion de Lime Survey
 
-## Requerimientos para la instalacion
+## 1. Requerimientos para la instalacion
 
 https://www.limesurvey.org/manual/manual/Installation_-_LimeSurvey_CE/es
 
-Aplicaciones de servidor
+### Aplicaciones de servidor
 - Espacio mínimo en disco de 250 MB.
 - MariaDB 10.3.38 o posterior 
 - MySQL 8 o posterior 
 - Postgres 12 o posterior.
 
-Requisitos de la versión PHP:
+### Requisitos de la versión PHP:
 - LS 6.x de PHP 7.4.x a 8.x
 - LS 5.x de PHP 7.2.5 a 8.0.x
 - LS 3.x de PHP 5.5.9 a 7.4.x
 
-Verificar que este instalado los paquetes
+## 2. Verificar instalaciones previas
 - hash, Zlib, session, openssl, fileinfo, SimpleXML
-
-## Instalaciones previas
 - Mysql Community
 - Apache
 - PHP 8.1
-## Administracion de la base de datos
+
+## 3. Administracion de la base de datos
 ### Crear base de datos
 ```bash
 mysql -u root -p
@@ -52,21 +51,21 @@ FLUSH PRIVILEGES;
 
 Salir del CLI de mysql escribiendo `\q` presionar enter
 
-## Instalacion de PHP y modulos necesarios
+## 4. Instalacion de modulos necesarios de PHP
 ```
 sudo apt-get install php8.1-mbstring php8.1-imap php8.1-ldap php8.1-mysql php8.1-pgsql php8.1-zip php8.1-gd php8.1-mcrypt php8.1-xml
 ```
 
 > Verificar la configuración `short_open_tag` de php.ini este en `ON`
 
-## Configuracion del proyecto
+## 5. Configuracion del proyecto
 > **Proyecto**: limesurvey1
 >
 > **Puerto**: 9004
 >
 > Todas las configuraciones se realizaran con este nombre, si cambia el nombre de proyecto o el puerto, debe cambiar en todos los lugares donde se esta utilizan estos datos
 
-## Descarga de instalador
+## 6. Descarga de instalador
 https://community.limesurvey.org/downloads/
 
 ### Descargar Download LimeSurvey CE
@@ -96,7 +95,7 @@ sudo chown -R www-data:www-data /var/www/limesurvey1
 sudo chmod -R 777 /var/www/limesurvey1
 ```
 
-### Crear virtual host
+## 7. Crear virtual host
 Crear archivo de configuracion
 ```bash
 sudo touch /etc/apache2/sites-available/limesurvey1.com.conf
@@ -150,31 +149,31 @@ sudo systemctl reload apache2
 sudo systemctl restart apache2
 ```
 
-### Datos para ingresar al sistema como administrador
+## 8. Datos para ingresar al sistema como administrador
 Ingresar al enlace http://localhost:9004/admin
 
-# Proceso de eliminacion de datos para una nueva instalacion
-## Quitar la web de apache
+## 9. Proceso de eliminacion de datos para una nueva instalacion
+### Quitar la web de apache
 ```bash
 sudo a2dissite limesurvey1.com.conf
 ```
 
-## Reiniciar el servidor
+### Reiniciar el servidor
 ```bash
 sudo systemctl reload apache2
 ```
 
-## Elimnar la configuracion de virtual host
+### Elimnar la configuracion de virtual host
 ```bash
 sudo rm -v /etc/apache2/sites-available/limesurvey1.com.conf
 ```
 
-## Elimnar proyecto web
+### Elimnar proyecto web
 ```bash
 sudo rm -r /var/www/limesurvey1
 ```
 
-## Eliminar base de datos
+### Eliminar base de datos
 ```bash
 mysql -u root -p
 ```
@@ -182,7 +181,7 @@ mysql -u root -p
 drop database limesurvey_db;
 ```
 
-## Eliminar usuario
+### Eliminar usuario
 ```bash
 drop user 'limesurvey_user'@'localhost';
 ```
