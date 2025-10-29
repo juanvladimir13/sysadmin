@@ -147,7 +147,7 @@ sudo vim .env
 
 ```
 APP_DEBUG=false
-APP_URL = http://0.0.0.0:9012
+APP_URL = http://38.54.57.20:9012
 APP_TIMEZONE=America/La_Paz
 APP_LOCALE=es
 APP_CURRENCY=BOB
