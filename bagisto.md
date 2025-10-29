@@ -27,7 +27,7 @@ sudo apt-get install php8.1-intl php8.1-gd php8.1-mbstring php8.1-curl php8.1-my
 ## 3. Configuracion del proyecto
 > **Proyecto**: bagisto1
 >
-> **Puerto**: 9003
+> **Puerto**: 9012
 >
 > Todas las configuraciones se realizaran con este nombre, si cambia el nombre de proyecto o el puerto, debe cambiar en todos los lugares donde se esta utilizan estos datos
 
@@ -75,10 +75,10 @@ sudo touch /etc/apache2/sites-available/bagisto1.com.conf
 sudo vim /etc/apache2/sites-available/bagisto1.com.conf
 ```
 
-Agregar el siguiente contenido, modificando el 9003, DocumentRoot y Directory por los datos que correspondan
+Agregar el siguiente contenido, modificando el 9012, DocumentRoot y Directory por los datos que correspondan
 
 ```apache
-<VirtualHost *:9003>
+<VirtualHost *:9012>
     ServerAdmin juanvladimir13@gmail.com
     #ServerName example.com
     #ServerAlias www.example.com
@@ -101,7 +101,7 @@ sudo vim /etc/apache2/ports.conf
 ```
 Agregar
 ```apache
-Listen 9003
+Listen 9012
 ```
 
 ### Habilitar host
@@ -147,7 +147,7 @@ sudo vim .env
 
 ```
 APP_DEBUG=false
-APP_URL = http://localhost:9003
+APP_URL = http://localhost:9012
 APP_TIMEZONE=America/La_Paz
 APP_LOCALE=es
 APP_CURRENCY=BOB
@@ -179,7 +179,7 @@ php artisan storage:link
 
 ## 7. Acceso al sistema web
 ### Datos para ingresar al sistema como administrador
-Ingresar al enlace http://localhost:9003/admin
+Ingresar al enlace http://localhost:9012/admin
 
 > Email: admin@example.com
 >
