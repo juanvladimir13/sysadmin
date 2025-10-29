@@ -53,7 +53,7 @@ Salir del CLI de mysql escribiendo `\q` presionar enter
 
 ## 4. Instalacion de modulos necesarios de PHP
 ```
-sudo apt-get install php8.1-mbstring php8.1-imap php8.1-ldap php8.1-mysql php8.1-pgsql php8.1-zip php8.1-gd php8.1-mcrypt php8.1-xml
+sudo apt-get install php8.1-mbstring php8.1-imap php8.1-ldap php8.1-mysql php8.1-pgsql php8.1-zip php8.1-gd php8.1-mcrypt php8.1-xml php8.1-intl
 ```
 
 > Verificar la configuración `short_open_tag` de php.ini este en `ON`
@@ -61,7 +61,7 @@ sudo apt-get install php8.1-mbstring php8.1-imap php8.1-ldap php8.1-mysql php8.1
 ## 5. Configuracion del proyecto
 > **Proyecto**: limesurvey1
 >
-> **Puerto**: 9004
+> **Puerto**: 9001
 >
 > Todas las configuraciones se realizaran con este nombre, si cambia el nombre de proyecto o el puerto, debe cambiar en todos los lugares donde se esta utilizan estos datos
 
@@ -108,7 +108,7 @@ sudo vim /etc/apache2/sites-available/limesurvey1.com.conf
 Agregar el siguiente contenido, modificando el 9003, DocumentRoot y Directory por los datos que correspondan
 
 ```apache
-<VirtualHost *:9004>
+<VirtualHost *:9001>
     ServerAdmin juanvladimir13@gmail.com
     #ServerName example.com
     #ServerAlias www.example.com
@@ -132,7 +132,7 @@ sudo vim /etc/apache2/ports.conf
 
 Agregar
 ```apache
-Listen 9004
+Listen 9001
 ```
 
 ### Habilitar host
