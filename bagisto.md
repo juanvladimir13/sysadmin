@@ -17,9 +17,9 @@ https://github.com/bagisto/bagisto/blob/master/README.md#getting-started
 - Apache
 - PHP 8.1
 
-### Instalacion de PHP y modulos necesarios
+### Instalacion de PHP y modulos necesarios para la version de bagist v2.3.7
 ```bash
-sudo apt-get install php8.1-intl php8.1-gd php8.1-mbstring php8.1-curl php8.1-mysql
+sudo apt-get install php8.3-intl php8.3-gd php8.3-mbstring php8.3-curl php8.3-mysql
 ```
 
 > Verificar aplicaciones instaladas en el servidor: openssl, tokenizer, json
