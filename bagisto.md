@@ -23,6 +23,12 @@ sudo apt-get install php8.1-intl php8.1-gd php8.1-mbstring php8.1-curl php8.1-my
 ```
 
 > Verificar aplicaciones instaladas en el servidor: openssl, tokenizer, json
+### Configuracion de php.ini
+```php
+memory_limit = 4G
+max_execution_time = 360
+date.timezone = Asia/Kolkata
+```
 
 ## 3. Configuracion del proyecto
 > **Proyecto**: bagisto1
@@ -40,7 +46,7 @@ mysql -u root -p
 ```bash
 CREATE DATABASE bagisto_db
 CHARACTER SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci;
+COLLATE utf8mb4_unicode_ci;
 ```
 
 ### Crear de usuario de base de datos
