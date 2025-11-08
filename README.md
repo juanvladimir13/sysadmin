@@ -16,7 +16,7 @@ sudo apt-get upgrade
 
 ### Instalar paquetes para conexion remota
 ```bash
-sudo apt-get install openssh-server install net-tools
+sudo apt-get install openssh-server net-tools
 ```
 
 ### Idiomas del sistema operativo
@@ -73,7 +73,7 @@ sudo add-apt-repository ppa:ondrej/apache2
 
 ### Instalar apache
 ```bash
-sudo apt install apache
+sudo apt install apache2
 ```
 
 ### Configuraciones apache
@@ -221,7 +221,7 @@ sudo vim /etc/php/8.2/apache2/php.ini
 Agregar al final del archivo
 > date.timezone = "America/La_Paz"
 >
-> short_open_tag = ON
+> short_open_tag = On
 
 ### Recargar servicios de apache
 ```bash
