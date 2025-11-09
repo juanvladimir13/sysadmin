@@ -198,6 +198,16 @@ sudo add-apt-repository ppa:ondrej/php
 sudo apt install php php-cli php-fpm
 ```
 
+### Verificar modulos PHP de un proyecto para instalar
+```bash
+composer check-platform-reqs
+```
+
+### Modulo de php
+```bash
+sudo apt install php php-bcmath php-bz2 php-cgi php-cli php-common php-curl php-dba php-dev php-enchant php-fpm php-gd php-gmp php-interbase php-intl php-ldap php-mbstring php-mysql php-odbc php-opcache php-pgsql php-phpdbg php-readline php-snmp php-soap php-sqlite3 php-sybase php-tidy php-xml php-xsl php-zip php-amqp php-decimal php-dio php-ds php-excimer php-gearman php-gnupg php-grpc php-http php-igbinary php-imagick php-imap php-libvirt-php php-lz4 php-mailparse php-maxminddb php-mcrypt php-memcache php-memcached php-mongodb php-msgpack php-oauth php-opentelemetry php-pcov php-phalcon php-pq php-protobuf php-ps php-pspell php-psr php-raphf php-rdkafka php-redis php-rrd php-smbclient php-solr php-ssh2 php-stomp php-uopz php-uploadprogress php-uuid php-vips php-xdebug php-xhprof php-xlswriter php-xmlrpc php-yac php-yaml php-zmq php-zstd
+```
+
 ### Instalacion de modulos de apache
 ```bash
 sudo apt install libapache2-mod-php
