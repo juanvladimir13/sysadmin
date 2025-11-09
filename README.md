@@ -198,6 +198,12 @@ sudo add-apt-repository ppa:ondrej/php
 sudo apt install php php-cli php-fpm php-cgi php-common
 ```
 
+### Detener apache el servicio de apache
+```
+sudo systemctl stop apache2
+sudo systemctl disable apache2
+```
+
 ### Verificar modulos PHP de un proyecto para instalar
 ```bash
 composer check-platform-reqs
