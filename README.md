@@ -195,7 +195,12 @@ sudo add-apt-repository ppa:ondrej/php
 
 ### Instalacion de php
 ```bash
-sudo apt install php libapache2-mod-php php-cli
+sudo apt install php php-cli php-fpm
+```
+
+### Instalacion de modulos de apache
+```bash
+sudo apt install libapache2-mod-php
 ```
 
 ## Instalacion de composer
