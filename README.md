@@ -170,6 +170,9 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 
 ```bash
 php composer-setup.php
+```
+
+```bash
 php -r "unlink('composer-setup.php');"
 ```
 
