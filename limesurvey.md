@@ -53,7 +53,7 @@ Salir del CLI de mysql escribiendo `\q` presionar enter
 
 ## 4. Instalacion de modulos necesarios de PHP
 ```
-sudo apt-get install php8.1-mbstring php8.1-imap php8.1-ldap php8.1-mysql php8.1-pgsql php8.1-zip php8.1-gd php8.1-mcrypt php8.1-xml php8.1-intl
+sudo apt-get install php-mbstring php-imap php-ldap php-mysql php-pgsql php-zip php-gd php-mcrypt php-xml php-intl
 ```
 
 > Verificar la configuración `short_open_tag` de php.ini este en `ON`

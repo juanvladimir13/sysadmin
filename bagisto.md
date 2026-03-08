@@ -15,11 +15,11 @@ https://github.com/bagisto/bagisto/blob/master/README.md#getting-started
 ## 2. Verificar instalaciones
 - Mysql Community
 - Apache
-- PHP 8.1
+- PHP 8.1 o superior
 
 ### Instalacion de PHP y modulos necesarios para la version de bagist v2.3.7
 ```bash
-sudo apt-get install php8.3-intl php8.3-gd php8.3-mbstring php8.3-curl php8.3-mysql
+sudo apt-get install php-intl php-gd php-mbstring php-curl php-mysql
 ```
 
 > Verificar aplicaciones instaladas en el servidor: openssl, tokenizer, json
@@ -27,7 +27,7 @@ sudo apt-get install php8.3-intl php8.3-gd php8.3-mbstring php8.3-curl php8.3-my
 ```php
 memory_limit = 4G
 max_execution_time = 360
-date.timezone = Asia/Kolkata
+date.timezone = America/La_Paz
 ```
 
 ## 3. Configuracion del proyecto

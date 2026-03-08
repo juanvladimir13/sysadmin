@@ -1,25 +1,54 @@
-# Configuracion de sistema operativo Ubuntu Server 
+# Instalacion y configuracion de Ubuntu Server
 
 ## Descarga del sistema operativo
-- Pagina principal https://ubuntu.com/download/server
-- Seleccionar versiones LTS https://ubuntu.com/download/alternative-downloads
-- Version 22.04 https://releases.ubuntu.com/jammy/
+- Pagina principal [Ubuntu Server](https://ubuntu.com/download/server)
+- Seleccionar versiones LTS [Ubuntu Server LTS](https://ubuntu.com/download/alternative-downloads)
+- Version LTS actual [Ubuntu Server 24.04](https://releases.ubuntu.com/noble/)
+
+## Gestion de usuarios y credenciales
+### Actualizar password del usuario root
+```bash
+passwd root
+```
+
+### Crear el usuario ubuntu
+```bash
+adduser ubuntu
+```
+
+### Agregar usuario ubuntu al grupo sudo
+```bash
+usermod -aG sudo ubuntu
+```
+> Salir del sistema operativo y volver a ingresar con el usuario **ubuntu**
+```bash
+exit
+```
+
+## Actualizacion del sistema operativo
+### Actualizar lista de paquetes
+```bash
+sudo apt update
+```
 
 ### Actualizar sistema operativo
 ```bash
-sudo apt-get update
+sudo apt upgrade
 ```
 
+## Instalacion de herramientas necesarias
+### Instalar servidor ssh y herramientas de red
 ```bash
-sudo apt-get upgrade
+sudo apt install openssh-server net-tools
 ```
 
-### Instalar paquetes para conexion remota
+### Instalar paquetes necesarios (htop unzip sqlite3)
 ```bash
-sudo apt-get install openssh-server net-tools
+sudo apt-get install htop unzip sqlite3
 ```
 
-### Idiomas del sistema operativo
+## Configuracion regional del idioma del servidor
+### Ver idiomas del sistema operativo
 ```bash
 locale -a
 ```
@@ -29,16 +58,22 @@ locale -a
 sudo dpkg-reconfigure locales
 ```
 
-### Ver idiomas
+### Establecer el idioma español de Bolivia
 ```bash
-locale
+sudo update-locale LANG=es_BO.UTF-8
 ```
 
-### Configuraciones
+### Recargar el idioma generado
+```bash
+sudo source /etc/default/locale
+```
+
+### Ver configuraciones
 ```bash
 sudo vim /etc/default/locale
 ```
 
+## Configuracion regional de la fecha y hora del servidor
 ### Ver formato de fecha y hora
 ```bash
 date
@@ -54,7 +89,7 @@ cat /etc/timezone
 sudo timedatectl set-timezone "America/La_Paz"
 ```
 
-### Habilitar la sincronización
+### Habilitar la sincronización con el servidor NTP
 ```bash
 sudo timedatectl set-ntp on
 ```
@@ -76,7 +111,7 @@ sudo add-apt-repository ppa:ondrej/apache2
 sudo apt install apache2
 ```
 
-### Configuraciones apache
+### Habilitar modulos de apache
 ```bash
 sudo a2enmod rewrite
 ```
@@ -89,7 +124,7 @@ sudo a2enmod headers
 sudo a2enmod env
 ```
 
-### Verificar comandos
+### Verificar comandos para habilitar virtualhosts
 ```bash
 man a2ensite
 ```
@@ -100,121 +135,30 @@ man a2dissite
 
 ### Recargar servicios de apache
 ```bash
+sudo systemctl reload apache2
+```
+```bash
 sudo systemctl restart apache2
 ```
 
+### Detener el servicio de apache y deshabilitar su inicio automatico (solo desktop)
 ```bash
-sudo systemctl reload apache2
-```
-
-## Instalacion y configuracion de MySql
-### Agregar repositorios de MySql Community
-```bash
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.34-1_all.deb
-```
-### Instalar paquete
-```bash
-sudo dpkg -i mysql-apt-config_0.8.34-1_all.deb
-```
-
-### Actualizar paquetes
-```bash
-sudo apt update
-```
-
-### Instalacion de MySql
-```bash
-sudo apt install mysql-server
-```
-
-### Habilitar servicio de base de datos
-```bash
-sudo systemctl enable mysql
-```
-
-### Verificar estados del servicio
-```bash
-sudo systemctl start mysql
-```
-
-```bash
-sudo systemctl status mysql
-```
-
-### Modificar zona horaria
-```bash
-sudo vim /etc/mysql/my.cnf
-```
-
-> Agregar
-```bash
-[mysqld]
-default-time-zone = 'America/La_Paz'
-```
-
-### Aplicar cambios
-```bash
-sudo systemctl restart mysql
-```
-
-### Ingresar al MySql
-```
-mysql -u root -p
-```
-
-### Crear usuario
-```
-CREATE USER 'juanvladimir13'@'localhost' IDENTIFIED BY 'password';
-```
-### Crear base de datos
-```
-CREATE DATABASE mi_base_de_datos
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci;
-```
-
-### Asignar privilegios de usuario a la base de datos
-```
-GRANT ALL PRIVILEGES ON mi_base_de_datos.* TO 'juanvladimir13'@'localhost';
-FLUSH PRIVILEGES;
-```
-
-> Configuracion
->
-> sudo dpkg-reconfigure mysql-apt-config
->
-> Configuracion
->
-> sudo mysql_secure_installation
-
-## Instalacion de php
-### Repositorio de php
-```bash
-sudo add-apt-repository ppa:ondrej/php
-```
-
-### Instalacion de php
-```bash
-sudo apt install php php-cli php-fpm php-cgi php-common
-```
-
-### Detener apache el servicio de apache
-```
 sudo systemctl stop apache2
 sudo systemctl disable apache2
 ```
 
-### Verificar modulos PHP de un proyecto para instalar
+## Instalacion de php
+### Agregar repositorio de php
 ```bash
-composer check-platform-reqs
+sudo add-apt-repository ppa:ondrej/php
 ```
 
-### Modulo de php
+### Instalacion del core de php
 ```bash
-sudo apt install php-bcmath php-bz2 php-curl php-dba php-dev php-enchant php-fpm php-gd php-gmp php-interbase php-intl php-ldap php-mbstring php-mysql php-odbc php-opcache php-pgsql php-phpdbg php-readline php-snmp php-soap php-sqlite3 php-sybase php-tidy php-xml php-xsl php-zip php-amqp php-decimal php-dio php-ds php-excimer php-gearman php-gnupg php-grpc php-http php-igbinary php-imagick php-imap php-libvirt-php php-lz4 php-mailparse php-maxminddb php-mcrypt php-memcache php-memcached php-mongodb php-msgpack php-oauth php-opentelemetry php-pcov php-phalcon php-pq php-protobuf php-ps php-pspell php-psr php-raphf php-rdkafka php-redis php-rrd php-smbclient php-solr php-ssh2 php-stomp php-uopz php-uploadprogress php-uuid php-vips php-xdebug php-xhprof php-xlswriter php-xmlrpc php-yac php-yaml php-zmq php-zstd
+sudo apt install php php-cli php-fpm php-cgi php-common
 ```
 
-### Instalacion de modulos de apache
+### Instalacion de modulos de php para apache
 ```bash
 sudo apt install libapache2-mod-php
 ```
@@ -234,25 +178,44 @@ php -r "unlink('composer-setup.php');"
 sudo mv composer.phar /usr/local/bin/composer
 ```
 
-## Configurar php para apache
+### Verificar modulos PHP de un proyecto para instalar
 ```bash
-sudo vim /etc/php/8.2/apache2/php.ini
+composer check-platform-reqs
+```
+
+## Configurar la fecha y hora regional de php
+```bash
+sudo vim /etc/php/8.4/apache2/php.ini
 ```
 
 Agregar al final del archivo
-> date.timezone = "America/La_Paz"
->
-> short_open_tag = On
 
-### Recargar servicios de apache
-```bash
-sudo systemctl restart apache2
+```ini
+date.timezone = "America/La_Paz"
+short_open_tag = On
 ```
 
+## Seguridad firewall
+### Instalar paquete ufw
 ```bash
-sudo systemctl reload apache2
+sudo apt install ufw
 ```
 
+### Habilitar puertos de servicios/virtualhosts
+```bash
+sudo ufw allow ssh
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 5432/tcp
+sudo ufw allow 3306/tcp
+```
 
+### Habilitar ufw
+```bash
+sudo ufw enable
+```
 
-
+### Ver estado de servicios
+```bash
+sudo ufw status verbose
+```
