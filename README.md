@@ -155,7 +155,7 @@ sudo add-apt-repository ppa:ondrej/php
 
 ### Instalacion del core de php
 ```bash
-sudo apt install php php-cli php-fpm php-cgi php-common
+sudo apt install php php-cli php-fpm php-cgi php-common php-xml php-mbstring php-gd php-pgsql php-zip
 ```
 
 ### Instalacion de modulos de php para apache

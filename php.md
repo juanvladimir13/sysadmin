@@ -86,6 +86,6 @@ session_regenerate_id(true);
   php_value session.name "SESSID_SITIO_1"
   
   # Opcional: Ruta única para los archivos de sesión (Altamente recomendado por seguridad)
-  php_value session.save_path "/var/www/sitio1/sessions"
+  php_value session.save_path "/var/lib/php/sessions"
 </VirtualHost>
 ```
