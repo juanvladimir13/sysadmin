@@ -74,7 +74,7 @@ sudo vim /etc/nginx/sites-available/bth.webapp
 ```nginx
 server {
     listen 8000;
-    server_name bthsanjulian.website;
+    #server_name bthsanjulian.website;
 
     root /var/www/bth.webapp/public;
     index index.php index.html;
@@ -88,6 +88,10 @@ server {
     #include /etc/letsencrypt/options-ssl-nginx.conf;
     #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
     
+    # HSTS (Habilitar solo después de verificar funcionamiento de SSL)
+    # add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    
+    include snippets/security.conf;
     charset utf-8;
     location / {
         try_files $uri $uri/ /index.php?$query_string;
@@ -99,6 +103,13 @@ server {
         fastcgi_read_timeout 60;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # Caché para archivos estáticos
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
+        access_log off;
     }
 
     location ~ /\.ht {
@@ -137,11 +148,6 @@ sudo systemctl restart php8.4-fpm
 ## Verificar pool de conexiones PHP-FPM
 ```bash
 ps aux | grep php-fpm
-```
-
-### Verificar pool
-```bash
-sudo systemctl status php8.4-fpm-bth
 ```
 
 ### Verificar pool

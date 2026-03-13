@@ -138,7 +138,6 @@ fastcgi_param  SERVER_SOFTWARE    nginx/$nginx_version;
 
 fastcgi_param  REMOTE_ADDR        $remote_addr;
 fastcgi_param  REMOTE_PORT        $remote_port;
-fastcgi_param  REMOTE_USER        $remote_user;
 fastcgi_param  SERVER_ADDR        $server_addr;
 fastcgi_param  SERVER_PORT        $server_port;
 fastcgi_param  SERVER_NAME        $server_name;
@@ -149,6 +148,18 @@ fastcgi_param  REDIRECT_STATUS    200;
 ### Crear el directorio
 ```bash
 sudo mkdir -p /etc/nginx/snippets
+```
+### Agregar seguridad
+```bash
+sudo vim /etc/nginx/snippets/security.conf
+```
+
+```nginx
+add_header X-Frame-Options "SAMEORIGIN";
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Content-Type-Options "nosniff";
+add_header Referrer-Policy "strict-origin-when-cross-origin";
+add_header Permissions-Policy "geolocation=(), microphone=(), camera=()";
 ```
 
 ### Crear archivo de configuracion
@@ -169,6 +180,10 @@ fastcgi_param PATH_INFO $path_info;
 
 fastcgi_index index.php;
 include fastcgi.conf;
+
+# Optimización de buffers para FastCGI
+fastcgi_buffers 16 16k;
+fastcgi_buffer_size 32k;
 ```
 
 ### Editar archivo de configuracion principal
@@ -218,8 +233,10 @@ http {
         text/xml
         application/json
         application/javascript
+        application/x-javascript
         application/xml
-        application/rss+xml;
+        application/rss+xml
+        image/svg+xml;
 
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
