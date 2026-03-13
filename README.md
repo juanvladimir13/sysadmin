@@ -1,224 +1,31 @@
-# Instalacion y configuracion de Ubuntu Server
+# Proyecto de Administración de Sistemas (Sysadmin)
 
-## Descarga del sistema operativo
-- Pagina principal [Ubuntu Server](https://ubuntu.com/download/server)
-- Seleccionar versiones LTS [Ubuntu Server LTS](https://ubuntu.com/download/alternative-downloads)
-- Version LTS actual [Ubuntu Server 24.04](https://releases.ubuntu.com/noble/)
+Este repositorio contiene guías y configuraciones detalladas para la administración de servidores Linux (Ubuntu), bases de datos, servidores web y aplicaciones PHP.
 
-## Gestion de usuarios y credenciales
-### Actualizar password del usuario root
-```bash
-passwd root
-```
+## Descripción de Archivos
 
-### Crear el usuario ubuntu
-```bash
-adduser ubuntu
-```
+### Directorio Raíz
+- **[README.md](README.md)**: Descripción general del proyecto y sus archivos.
+- **[index.php](index.php)**: Ejemplo práctico de manejo de sesiones seguras en PHP, implementando mejores prácticas de seguridad.
 
-### Agregar usuario ubuntu al grupo sudo
-```bash
-usermod -aG sudo ubuntu
-```
-> Salir del sistema operativo y volver a ingresar con el usuario **ubuntu**
-```bash
-exit
-```
+### Base de Datos (`database/`)
+- **[mysql.md](database/mysql.md)**: Guía completa de instalación, configuración inicial, gestión de usuarios y bases de datos en MySQL.
+- **[postgres.md](database/postgres.md)**: Instrucciones para instalar PostgreSQL, configurar el usuario administrador, manejar zonas horarias y cambiar el propietario (owner) de bases de datos y tablas.
 
-## Actualizacion del sistema operativo
-### Actualizar lista de paquetes
-```bash
-sudo apt update
-```
+### E-commerce (`ecommerce/`)
+- **[bagisto.md](ecommerce/bagisto.md)**: Documentación paso a paso para la instalación de Bagisto v2.3.7 sobre un servidor Apache.
 
-### Actualizar sistema operativo
-```bash
-sudo apt upgrade
-```
+### Lenguajes (`language/`)
+- **[php.md](language/php.md)**: Guía de instalación de PHP 8.4, configuración de seguridad para sesiones, instalación de Composer y gestión de extensiones.
 
-## Instalacion de herramientas necesarias
-### Instalar servidor ssh y herramientas de red
-```bash
-sudo apt install openssh-server net-tools
-```
+### Servidores (`server/`)
+- **[ubuntu.md](server/ubuntu.md)**: Guía de configuración inicial para Ubuntu Server, incluyendo gestión de usuarios, actualización del sistema, configuración regional, sincronización horaria y firewall (UFW).
 
-### Instalar paquetes necesarios (htop unzip sqlite3)
-```bash
-sudo apt-get install htop unzip sqlite3
-```
+### Aplicaciones de Prueba (`tests/`)
+- **[limesurvey.md](tests/limesurvey.md)**: Instrucciones detalladas para desplegar LimeSurvey, incluyendo requisitos de PHP y configuración de Virtual Host en Apache.
 
-## Configuracion regional del idioma del servidor
-### Ver idiomas del sistema operativo
-```bash
-locale -a
-```
-
-### Configurar idiomas
-```bash
-sudo dpkg-reconfigure locales
-```
-
-### Establecer el idioma español de Bolivia
-```bash
-sudo update-locale LANG=es_BO.UTF-8
-```
-
-### Recargar el idioma generado
-```bash
-sudo source /etc/default/locale
-```
-
-### Ver configuraciones
-```bash
-sudo vim /etc/default/locale
-```
-
-## Configuracion regional de la fecha y hora del servidor
-### Ver formato de fecha y hora
-```bash
-date
-```
-
-### Ver la zona horaria
-```bash
-cat /etc/timezone
-```
-
-### Modificar la zona horaria
-```bash
-sudo timedatectl set-timezone "America/La_Paz"
-```
-
-### Habilitar la sincronización con el servidor NTP
-```bash
-sudo timedatectl set-ntp on
-```
-
-### Ver fecha y zona horaria
-```bash
-timedatectl
-```
-
-## Instalacion y configuracion de apache
-
-### Agregar repositorio de apache
-```bash
-sudo add-apt-repository ppa:ondrej/apache2
-```
-
-### Instalar apache
-```bash
-sudo apt install apache2
-```
-
-### Habilitar modulos de apache
-```bash
-sudo a2enmod rewrite
-```
-
-```bash
-sudo a2enmod headers
-```
-
-```bash
-sudo a2enmod env
-```
-
-### Verificar comandos para habilitar virtualhosts
-```bash
-man a2ensite
-```
-
-```bash
-man a2dissite
-```
-
-### Recargar servicios de apache
-```bash
-sudo systemctl reload apache2
-```
-```bash
-sudo systemctl restart apache2
-```
-
-### Detener el servicio de apache y deshabilitar su inicio automatico (solo desktop)
-```bash
-sudo systemctl stop apache2
-sudo systemctl disable apache2
-```
-
-## Instalacion de php
-### Agregar repositorio de php
-```bash
-sudo add-apt-repository ppa:ondrej/php
-```
-
-### Instalacion del core de php
-```bash
-sudo apt install php php-cli php-fpm php-cgi php-common php-xml php-mbstring php-gd php-pgsql php-zip
-```
-
-### Instalacion de modulos de php para apache
-```bash
-sudo apt install libapache2-mod-php
-```
-
-## Instalacion de composer
-```bash
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-```
-
-```bash
-php composer-setup.php
-```
-
-```bash
-php -r "unlink('composer-setup.php');"
-```
-
-### Agregar a las variables de entorno del sistema
-```bash
-sudo mv composer.phar /usr/local/bin/composer
-```
-
-### Verificar modulos PHP de un proyecto para instalar
-```bash
-composer check-platform-reqs
-```
-
-## Configurar la fecha y hora regional de php
-```bash
-sudo vim /etc/php/8.4/apache2/php.ini
-```
-
-Agregar al final del archivo
-
-```ini
-date.timezone = "America/La_Paz"
-short_open_tag = On
-```
-
-## Seguridad firewall
-### Instalar paquete ufw
-```bash
-sudo apt install ufw
-```
-
-### Habilitar puertos de servicios/virtualhosts
-```bash
-sudo ufw allow ssh
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 5432/tcp
-sudo ufw allow 3306/tcp
-```
-
-### Habilitar ufw
-```bash
-sudo ufw enable
-```
-
-### Ver estado de servicios
-```bash
-sudo ufw status verbose
-```
+### Servidores Web (`web-servers/`)
+- **[apache.md](web-servers/apache.md)**: Comandos esenciales para la instalación de Apache, habilitación de módulos (rewrite, headers) y gestión del servicio.
+- **[nginx.md](web-servers/nginx.md)**: Guía avanzada de instalación de Nginx desde repositorios oficiales, optimización del motor y configuración global con PHP-FPM.
+- **[virtual-nginx.md](web-servers/virtual-nginx.md)**: Configuración específica de Virtual Hosts para Nginx utilizando pools de PHP-FPM dedicados y sockets Unix.
+- **[virtualhost-apache.md](web-servers/virtualhost-apache.md)**: Guía para la creación de Virtual Hosts en Apache, configuración de puertos y persistencia de sesiones PHP por sitio.

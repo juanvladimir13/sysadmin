@@ -22,12 +22,12 @@ sudo -u postgres psql
 
 ### Actualizar password del usuario postgres
 ```sql
-ALTER USER postgres WITH PASSWORD 'juanvladimir13';
+ALTER USER postgres WITH PASSWORD 'password';
 ```
 
 ### Crear usuarios
 ```sql
-CREATE USER juanvladimir13 WITH PASSWORD 'juanvladimir13';
+CREATE USER usuario WITH PASSWORD 'password';
 ```
 
 ## Configurar idioma y timezone de postgres
@@ -52,6 +52,7 @@ timezone = 'America/La_Paz'
 ```
 
 ```bash
+sudo systemctl reload postgresql
 sudo systemctl restart postgresql
 ```
 

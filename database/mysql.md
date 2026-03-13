@@ -1,5 +1,5 @@
-## Instalacion y configuracion de MySql
-### Verificar la ultima version de mysql
+# Instalacion y configuracion de MySql
+## Verificar la ultima version de mysql
 [Pagina principal](https://dev.mysql.com/downloads/repo/apt/)
 
 Modificar la version en los siguientes comandos
@@ -19,7 +19,7 @@ sudo dpkg -i mysql-apt-config_0.8.36-1_all.deb
 sudo apt update
 ```
 
-### Instalacion de MySql
+### Instalacion de mysql
 ```bash
 sudo apt install mysql-server
 ```
@@ -43,7 +43,6 @@ sudo systemctl status mysql
 sudo vim /etc/mysql/my.cnf
 ```
 
-> Agregar
 ```bash
 [mysqld]
 default-time-zone = 'America/La_Paz'
@@ -61,8 +60,9 @@ mysql -u root -p
 
 ### Crear usuario
 ```
-CREATE USER 'juanvladimir13'@'localhost' IDENTIFIED BY 'password';
+CREATE USER 'usuario'@'localhost' IDENTIFIED BY 'password';
 ```
+
 ### Crear base de datos
 ```
 CREATE DATABASE mi_base_de_datos
@@ -72,7 +72,7 @@ COLLATE utf8mb4_0900_ai_ci;
 
 ### Asignar privilegios de usuario a la base de datos
 ```
-GRANT ALL PRIVILEGES ON mi_base_de_datos.* TO 'juanvladimir13'@'localhost';
+GRANT ALL PRIVILEGES ON mi_base_de_datos.* TO 'usuario'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
