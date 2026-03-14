@@ -1,4 +1,11 @@
-## Instalacion y configuracion de apache
+# Instalacion y configuracion de apache
+
+## Entorno de hardware y software
+### Servidor
+| Característica | Detalle |
+| :--- | :--- |
+| Sistema Operativo | Ubuntu 24.04 LTS |
+| Servidor Web | Apache 2.4 |
 
 ### Agregar repositorio de apache
 ```bash

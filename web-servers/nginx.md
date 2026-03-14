@@ -1,60 +1,23 @@
-# Configuracion de nginx y php-fpm para Ubuntu Server
+# Instalacion y configuracion de nginx en Ubuntu Server
 
-## Consideraciones
-Servidor
-- Ubuntu 24.04 LTS
-- PHP 8.4
-- Nginx 1.28
+## Entorno
+### Servidor
+| Característica | Detalle |
+| :--- | :--- |
+| Sistema Operativo | Ubuntu 24.04 LTS |
+| Servidor Web | Nginx 1.28 |
 
-Dominio
-- El dominio es **bthsanjulian.website**
-- El puerto es **8000**
-- El usuario es **www-data** y grupo es **www-data**
-- El directorio es **/var/www/bth.webapp**
-- El archivo de configuracion **/etc/nginx/sites-available/bth.webapp**
-
-PHP
-- Directorio de sesiones PHP **/var/lib/php/sessions/bth.webapp**
-- El archivo para php-fpm **/etc/php/8.4/fpm/pool.d/bth.webapp.conf**
-- El Socket de php-fpm **/run/php/php8.4-fpm-bth.webapp.sock**
-
-## Configuraciones globales para php-fpm
-### Editar php.ini para php-fpm
-```bash
-sudo vim /etc/php/8.4/fpm/php.ini
-```
-
-```ini
-opcache.enable=1
-opcache.memory_consumption=256
-opcache.interned_strings_buffer=16
-opcache.max_accelerated_files=20000
-opcache.revalidate_freq=60
-# Optimización de subidas
-post_max_size = 64M
-upload_max_filesize = 64M
-```
-
-### Editar www.conf para php-fpm
-```bash
-sudo vim /etc/php/8.4/fpm/pool.d/www.conf
-```
-
-```ini
-pm = dynamic
-
-pm.max_children = 40
-pm.start_servers = 8
-pm.min_spare_servers = 4
-pm.max_spare_servers = 12
-
-pm.max_requests = 500
-```
+### Dominio y control de acceso
+| Propiedad | Valor |
+| :--- | :--- |
+| Dominio | bthsanjulian.website |
+| Usuario | www-data |
+| Grupo | www-data |
 
 ## Instalacion de nginx
 
 ### Agregar repositorio principal
-- [Instrucciones de instalacion de nginx en ubuntu](https://nginx.org/en/linux_packages.html#Ubuntu)
+[Instrucciones de instalacion de nginx en ubuntu](https://nginx.org/en/linux_packages.html#Ubuntu)
 ```bash
 sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring
 ```
@@ -152,6 +115,7 @@ fastcgi_param  REDIRECT_STATUS    200;
 ```bash
 sudo mkdir -p /etc/nginx/snippets
 ```
+
 ### Agregar seguridad
 ```bash
 sudo vim /etc/nginx/snippets/security.conf

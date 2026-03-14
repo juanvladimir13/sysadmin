@@ -1,22 +1,63 @@
 # Configuracion de php-fpm para Ubuntu Server con nginx
 
-## Consideraciones
-Servidor
-- Ubuntu 24.04 LTS
-- PHP 8.4
-- Nginx 1.28
+## Entorno de hardware y software
+### Servidor
+| Característica | Detalle |
+| :--- | :--- |
+| Sistema Operativo | Ubuntu 24.04 LTS |
+| Servidor Web | Nginx 1.28 |
+| Lenguaje | PHP 8.4 |
 
-Dominio
-- El dominio es **bthsanjulian.website**
-- El puerto es **8000**
-- El usuario es **www-data** y grupo es **www-data**
-- El directorio es **/var/www/bth.webapp**
-- El archivo de configuracion **/etc/nginx/sites-available/bth.webapp**
+### Dominio y control de acceso
+| Propiedad | Valor |
+| :--- | :--- |
+| Dominio | bthsanjulian.website |
+| Puerto | 8000 |
+| Usuario | www-data |
+| Grupo | www-data |
+| Directorio | /var/www/bth.webapp |
+| Archivo de configuracion | /etc/nginx/sites-available/bth.webapp |
 
-PHP
-- Directorio de sesiones PHP **/var/lib/php/sessions/bth.webapp**
-- El archivo para php-fpm **/etc/php/8.4/fpm/pool.d/bth.webapp.conf**
-- El Socket de php-fpm **/run/php/php8.4-fpm-bth.webapp.sock**
+### PHP
+| Configuración | Ruta |
+| :--- | :--- |
+| Directorio de sesiones | /var/lib/php/sessions/bth.webapp |
+| Archivo pool.d | /etc/php/8.4/fpm/pool.d/bth.webapp.conf |
+| Socket de php-fpm | /run/php/php8.4-fpm-bth.webapp.sock |
+
+
+## Configuraciones globales para php-fpm
+### Editar php.ini para php-fpm
+```bash
+sudo vim /etc/php/8.4/fpm/php.ini
+```
+
+```ini
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.interned_strings_buffer=16
+opcache.max_accelerated_files=20000
+opcache.revalidate_freq=60
+# Optimización de subidas
+post_max_size = 64M
+upload_max_filesize = 64M
+```
+
+### Editar www.conf para php-fpm
+```bash
+sudo vim /etc/php/8.4/fpm/pool.d/www.conf
+```
+
+```ini
+pm = dynamic
+
+pm.max_children = 40
+pm.start_servers = 8
+pm.min_spare_servers = 4
+pm.max_spare_servers = 12
+
+pm.max_requests = 500
+```
 
 ## Configuracion de php-fpm para un sitio web
 
@@ -163,4 +204,9 @@ ps aux | grep php-fpm
 ### Verificar pool
 ```bash
 ls /run/php/
+```
+
+### Habilitar puerto en el firewal
+```bash
+sudo ufw allow 8000/tcp
 ```

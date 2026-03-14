@@ -1,5 +1,32 @@
 # Configuracion de Django para nginx y uwsgi
 
+## Entorno de hardware y software
+### Servidor
+| Característica | Detalle |
+| :--- | :--- |
+| Sistema Operativo | Ubuntu 24.04 LTS |
+| Servidor Web | Nginx 1.28 |
+| Lenguaje | Python 3.12 |
+| Framework | Django 5.2 |
+| Proxy inverso | uwsgi 2.0.25 |
+
+### Dominio y control de acceso
+| Propiedad | Valor |
+| :--- | :--- |
+| Dominio | bthsanjulian.website |
+| Puerto | 8080 |
+| Usuario | www-data |
+| Grupo | www-data |
+| Directorio | /var/www/bth.webapp |
+| Archivo de configuracion | /etc/nginx/sites-available/bth.webapp |
+
+### Python
+| Configuración | Ruta |
+| :--- | :--- |
+| Directorio de webserver | /etc/uwsgi/sites |
+| Directorio de log | /var/log/uwsgi |
+| Socket de uwsgi | unix:///run/bth.webapp.sock |
+
 ### Instalar dependencias en el servidor
 
 ```bash
@@ -24,7 +51,7 @@ sudo chmod -R 664 /var/log/uwsgi
 ## Configurar virtual host de nginx
 
 ```bash
-sudo vim /etc/nginx/sites-available/bth.webapp.conf
+sudo vim /etc/nginx/sites-available/bth.webapp
 ```
 
 ```nginx
@@ -74,7 +101,7 @@ sudo nginx -t
 
 ### Habilitar virtual host de nginx
 ```bash
-sudo ln -s /etc/nginx/sites-available/bth.webapp.conf /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/bth.webapp /etc/nginx/sites-enabled/
 ```
 
 ### Reiniciar los servicios
@@ -93,6 +120,7 @@ sudo vim /etc/uwsgi/sites/bth.webapp.ini
 chdir           = /var/www/bth.webapp
 module          = repositorio_bth.wsgi
 home            = /opt/venv/bth.webapp
+virtualenv      = /opt/venv/bth.webapp
 master          = true
 processes       = 4
 threads         = 2
@@ -109,6 +137,11 @@ uid = www-data
 gid = www-data
 chown-socket = www-data:www-data
 chmod-socket = 660
+```
+
+### Habilitar puerto en el firewal
+```bash
+sudo ufw allow 8080/tcp
 ```
 
 ### Ejecutar webapp

@@ -1,21 +1,27 @@
 # Crear virtual host
 
-**Consideraciones**
+## Entorno de hardware y software
+### Servidor
+| Característica | Detalle |
+| :--- | :--- |
+| Sistema Operativo | Ubuntu 24.04 LTS |
+| Servidor Web | Apache 2.4 |
+| Lenguaje | PHP 8.4 |
 
-Servidor
-- Ubuntu 24.04 LTS
-- PHP 8.4
-- Apache 2.4
+### Dominio y control de acceso
+| Propiedad | Valor |
+| :--- | :--- |
+| Dominio | bthsanjulian.website |
+| Puerto | 8000 |
+| Usuario | www-data |
+| Grupo | www-data |
+| Directorio | /var/www/bth.webapp |
+| Archivo de configuracion | /etc/apache2/sites-available/bth.webapp.conf |
 
-Dominio
-- El dominio es **bthsanjulian.website**
-- El puerto es **8000**
-- El usuario es **www-data** y grupo es **www-data**
-- El directorio es **/var/www/bth.webapp**
-- El archivo de configuracion **/etc/apache2/sites-available/bth.webapp.conf**
-
-PHP
-- Directorio de sesiones PHP **/var/lib/php/sessions/bth.webapp**
+### PHP
+| Configuración | Ruta |
+| :--- | :--- |
+| Directorio de sesiones | /var/lib/php/sessions/bth.webapp |
 
 ## Habilitar puertos en apache
 ### Agregar puertos a utilizar
@@ -26,11 +32,6 @@ sudo vim /etc/apache2/ports.conf
 ### Agregar puerto
 ```apache
 Listen 8000
-```
-
-### Habilitar puerto el el firewal
-```bash
-sudo ufw allow 8000/tcp
 ```
 
 ### Crear directorio para sesiones PHP
@@ -118,13 +119,17 @@ sudo vim /etc/apache2/sites-available/bth.webapp.conf
 sudo apachectl configtest
 ```
 
+### Habilitar puerto el el firewal
+```bash
+sudo ufw allow 8000/tcp
+```
+
 ### Habilitar host
 ```bash
 sudo a2ensite bth.webapp.conf
 ```
 
 ### Reiniciar apache
-
 ```bash
 sudo systemctl reload apache2
 sudo systemctl restart apache2
