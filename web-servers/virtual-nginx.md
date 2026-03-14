@@ -16,7 +16,7 @@ Dominio
 PHP
 - Directorio de sesiones PHP **/var/lib/php/sessions/bth.webapp**
 - El archivo para php-fpm **/etc/php/8.4/fpm/pool.d/bth.webapp.conf**
-- El Socket de php-fpm **/run/php/php8.4-fpm-bth.sock**
+- El Socket de php-fpm **/run/php/php8.4-fpm-bth.webapp.sock**
 
 ## Configuracion de php-fpm para un sitio web
 
@@ -62,6 +62,12 @@ pm.max_spare_servers = 12
 
 pm.max_requests = 500
 
+# Redirigir salida de errores a Nginx
+catch_workers_output = yes
+php_admin_flag[log_errors] = on
+php_admin_value[error_log] = /var/log/fpm-php.bth.webapp.log
+request_terminate_timeout = 60s
+
 php_value[session.name] = bth.webapp
 php_value[session.save_path] = /var/lib/php/sessions/bth.webapp
 ```
@@ -93,16 +99,16 @@ server {
     
     include snippets/security.conf;
     charset utf-8;
+
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
+    # Procesar archivos PHP usando el snippet global
     location ~ \.php$ {
-        include fastcgi.conf;
+        include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/run/php/php8.4-fpm-bth.webapp.sock;
         fastcgi_read_timeout 60;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     }
 
     # Caché para archivos estáticos
@@ -112,10 +118,14 @@ server {
         access_log off;
     }
 
-    location ~ /\.ht {
+    # Denegar acceso a archivos ocultos (dotfiles)
+    location ~ /\.(?!well-known).* {
         deny all;
+        access_log off;
+        log_not_found off;
     }
     
+    # Configuración de CORS
     add_header Access-Control-Allow-Origin "*" always;
     add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" always;
     add_header Access-Control-Allow-Headers "Origin, Content-Type, Authorization, X-Requested-With, Accept" always;

@@ -96,11 +96,8 @@ sudo chmod -R 777 /var/www/limesurvey1
 ```
 
 ## 7. Crear virtual host
-Crear archivo de configuracion
-```bash
-sudo touch /etc/apache2/sites-available/limesurvey1.com.conf
-```
 
+### Virtual host en apache
 ```bash
 sudo vim /etc/apache2/sites-available/limesurvey1.com.conf
 ```
@@ -149,6 +146,64 @@ sudo systemctl reload apache2
 sudo systemctl restart apache2
 ```
 
+## Virtual host en nginx
+```nginx
+server {
+    set $host_path "/PATH/TO/LIMESURVEY";
+    server_name  YOUR.SERVER.FQDN;
+    root /PATH/TO/LIMESURVEY;
+    charset utf-8;
+    try_files $uri /index.php?$uri&$args;
+    # Disallow reading inside php script directory, see issue with debug > 1 on note
+    location ~ ^/(application|docs|framework|locale|protected|tests|themes/\w+/views) {
+        deny  all;
+    }
+    # Disallow reading inside runtime directory
+    location ~ ^/tmp/runtime/ {
+        deny  all;
+    }
+
+    # Allow access to well-known directory, different usage, for example ACME Challenge for Let's Encrypt
+    location ~ /\.well-known {
+        allow all;
+    }
+    # Deny all attempts to access hidden files
+    # such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+        deny all;
+    }
+
+    # Deshabilitar acceso a archivos sensibles
+    location ~ /(config|common|tmp|upload/surveys|protected|framework|themes/\w+/views|application|docs|locale|tests) {
+        deny all;
+    }
+
+    #Disallow direct read user upload files
+    location ~ ^/upload/surveys/.*/fu_[a-z0-9]*$ {
+        return 444;
+    }
+    
+    #Disallow uploaded potential executable files in upload directory
+    location ~* /upload/.*\.(pl|cgi|py|pyc|pyo|phtml|sh|lua|php|php3|php4|php5|php6|pcgi|pcgi3|pcgi4|pcgi5|pcgi6|icn)$ {
+        return 444;
+    }
+    
+    #avoid processing of calls to unexisting static files by yii
+    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+        try_files $uri =404;
+    }
+    
+    location ~ \.php$ {
+        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+        try_files $uri index.php;
+        fastcgi_pass   127.0.0.1:9000; # Change this to match your settings
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  SCRIPT_NAME      $fastcgi_script_name;
+    }
+}
+```
 ## 8. Datos para ingresar al sistema como administrador
 Ingresar al enlace http://localhost:9004/admin
 

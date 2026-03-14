@@ -10,17 +10,53 @@ sudo add-apt-repository ppa:ondrej/apache2
 sudo apt install apache2
 ```
 
-### Habilitar modulos de apache
+### Habilitar modulos esenciales de apache
 ```bash
-sudo a2enmod rewrite
+# Reescritura y Cabeceras
+sudo a2enmod rewrite headers env
+
+# Rendimiento (Compresión y Caché)
+sudo a2enmod deflate filter expires
+
+# Seguridad y Protocolos
+sudo a2enmod ssl http2
+
+# Proxy (para PHP-FPM si se usa)
+sudo a2enmod proxy proxy_fcgi
 ```
 
+### Configuracion de seguridad global
 ```bash
-sudo a2enmod headers
+sudo vim /etc/apache2/conf-available/security.conf
 ```
 
+```apache
+# Ocultar versión de apache
+ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
+
+# Cabeceras de seguridad globales
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set X-XSS-Protection "1; mode=block"
+```
+
+### Ajuste de rendimiento MPM Event
 ```bash
-sudo a2enmod env
+sudo vim /etc/apache2/mods-available/mpm_event.conf
+```
+
+```apache
+<IfModule mpm_event_module>
+    StartServers             3
+    MinSpareThreads          25
+    MaxSpareThreads          75
+    ThreadLimit              64
+    ThreadsPerChild          25
+    MaxRequestWorkers        150
+    MaxConnectionsPerChild   0
+</IfModule>
 ```
 
 ### Verificar comandos para habilitar virtualhosts
@@ -34,9 +70,8 @@ man a2dissite
 
 ### Recargar servicios de apache
 ```bash
+sudo apachectl configtest
 sudo systemctl reload apache2
-```
-```bash
 sudo systemctl restart apache2
 ```
 

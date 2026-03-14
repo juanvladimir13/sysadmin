@@ -16,7 +16,7 @@ Dominio
 PHP
 - Directorio de sesiones PHP **/var/lib/php/sessions/bth.webapp**
 - El archivo para php-fpm **/etc/php/8.4/fpm/pool.d/bth.webapp.conf**
-- El Socket de php-fpm **/run/php/php8.4-fpm-bth.sock**
+- El Socket de php-fpm **/run/php/php8.4-fpm-bth.webapp.sock**
 
 ## Configuraciones globales para php-fpm
 ### Editar php.ini para php-fpm
@@ -30,6 +30,9 @@ opcache.memory_consumption=256
 opcache.interned_strings_buffer=16
 opcache.max_accelerated_files=20000
 opcache.revalidate_freq=60
+# Optimización de subidas
+post_max_size = 64M
+upload_max_filesize = 64M
 ```
 
 ### Editar www.conf para php-fpm
@@ -155,11 +158,15 @@ sudo vim /etc/nginx/snippets/security.conf
 ```
 
 ```nginx
-add_header X-Frame-Options "SAMEORIGIN";
-add_header X-XSS-Protection "1; mode=block";
-add_header X-Content-Type-Options "nosniff";
-add_header Referrer-Policy "strict-origin-when-cross-origin";
-add_header Permissions-Policy "geolocation=(), microphone=(), camera=()";
+# Cabeceras de seguridad
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'; frame-ancestors 'self';" always;
+add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+add_header X-Download-Options "noopen" always;
+add_header X-Permitted-Cross-Domain-Policies "none" always;
 ```
 
 ### Crear archivo de configuracion
@@ -194,6 +201,7 @@ sudo vim /etc/nginx/nginx.conf
 ```nginx
 user www-data;
 worker_processes auto;
+worker_rlimit_nofile 8192;
 pid /run/nginx.pid;
 
 events {
@@ -214,7 +222,9 @@ http {
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    client_body_buffer_size 16K;
+    # Ajustes de cliente
+    client_max_body_size 64M;
+    client_body_buffer_size 128k;
     client_header_buffer_size 1k;
     large_client_header_buffers 4 16k;
 
@@ -222,21 +232,36 @@ http {
     client_header_timeout 12;
     send_timeout 10;
 
+    # Caché de archivos abiertos
+    open_file_cache max=1000 inactive=20s;
+    open_file_cache_valid 30s;
+    open_file_cache_min_uses 2;
+    open_file_cache_errors on;
+
+    # Compresión Gzip
     gzip on;
     gzip_comp_level 5;
     gzip_min_length 256;
+    gzip_proxied any;
     gzip_vary on;
 
     gzip_types
         text/plain
         text/css
         text/xml
+        text/javascript
         application/json
         application/javascript
         application/x-javascript
         application/xml
         application/rss+xml
-        image/svg+xml;
+        application/atom+xml
+        application/wasm
+        application/vnd.ms-fontobject
+        application/x-font-ttf
+        font/opentype
+        image/svg+xml
+        image/x-icon;
 
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
