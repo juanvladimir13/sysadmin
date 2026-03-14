@@ -39,12 +39,20 @@ server {
 
     client_max_body_size 75M;
 
+    # Habilitar compresión Gzip para mejorar el rendimiento
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
     location /media  {
         alias /var/www/bth.webapp/media;
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
     }
 
     location /static {
         alias /var/www/bth.webapp/static;
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
     }
 
     location / {
@@ -86,9 +94,16 @@ chdir           = /var/www/bth.webapp
 module          = repositorio_bth.wsgi
 home            = /opt/venv/bth.webapp
 master          = true
-processes       = 10
+processes       = 4
+threads         = 2
+enable-threads  = true
+max-requests    = 5000
+harakiri        = 60
+buffer-size     = 32768
 socket          = /run/bth.webapp.sock
 vacuum          = true
+
+logto           = /var/log/uwsgi/bth.webapp.log
 
 uid = www-data
 gid = www-data
