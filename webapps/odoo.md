@@ -1,5 +1,16 @@
 # Instalacion de odoo
 
+## Ubuntu Server 24.04 LTS
+
+### Credenciales
+- **user:** si
+- **password:** bthsanjulian
+
+### Acceso por ssh 
+```bash
+ssh si@192.168.56.13
+```
+
 ## Repositorios
 
 ```bash
@@ -37,7 +48,3 @@ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtm
 ```bash
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 ```
-
-### Credenciales
-- **user:** si
-- **password:** bthsanjulian

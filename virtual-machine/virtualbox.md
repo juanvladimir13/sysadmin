@@ -45,7 +45,3 @@ sudo netplan apply
 ```bash
 ssh si@192.168.56.13
 ```
-
-### Credenciales
-- **user:** si
-- **password:** bthsanjulian
