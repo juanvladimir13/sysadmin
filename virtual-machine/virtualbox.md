@@ -1,6 +1,6 @@
 # Configuracion de virtualbox 7.2 con IP estatica
 
-## Confgiracion de red
+## Configuracion de red
 
 ### Crear red
 - Menu -> network -> Crear red
