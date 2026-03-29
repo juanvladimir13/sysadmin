@@ -80,3 +80,8 @@ sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i point_of_sale --stop-after-i
 ```bash
 sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i purchase --stop-after-init
 ```
+
+- Reiniciar el servidor
+```bash
+sudo systemctl restart odoo
+```
