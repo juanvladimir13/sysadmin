@@ -2,7 +2,7 @@
 
 ## Agregar repositorio de postgres
 ```bash
-sudo apt install -y postgresql-common
+sudo apt-get install -y postgresql-common
 ```
 
 ```bash
@@ -11,7 +11,7 @@ sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 
 ### Instalar postgres
 ```bash
-sudo apt install postgresql-18
+sudo apt-get install postgresql-18
 ```
 
 ## Configurar usuario administrador de postgres
