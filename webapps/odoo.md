@@ -49,7 +49,7 @@ sudo apt-get update && sudo apt-get install odoo
 ### Post Instalacion
 
 ```bash
-sudo apt install fontconfig xfonts-75dpi xfonts-base
+sudo apt-get install fontconfig xfonts-75dpi xfonts-base
 ```
 
 ```bash
