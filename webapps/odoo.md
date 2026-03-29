@@ -72,7 +72,7 @@ sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i sale --stop-after-init
 ```
 
 - Modulo de punto de venta
-- ```bash
+```bash
 sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i point_of_sale --stop-after-init
 ```
 
