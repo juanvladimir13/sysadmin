@@ -59,3 +59,24 @@ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtm
 ```bash
 sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 ```
+
+### Iniciar odoo
+- Abrir un navegador web
+- introducir la url [192.168.56.13:8069](192.168.56.13:8069)
+- Introducir todas las credenciales e iniciar
+
+### Instalacion de modulos en odoo
+- Modulo de ventas
+```bash
+sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i sale --stop-after-init
+```
+
+- Modulo de punto de venta
+- ```bash
+sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i point_of_sale --stop-after-init
+```
+
+- Modulo de compras
+```bash
+sudo -u odoo odoo -c /etc/odoo/odoo.conf -d odoo -i purchase --stop-after-init
+```
