@@ -11,6 +11,17 @@
 ssh si@192.168.56.13
 ```
 
+## Habilitar el firewall
+### Habilitar puerto 8069
+```bash
+sudo ufw allow 8069/tcp
+```
+
+### Verificar puertos habilitados en el firewall
+```bash
+sudo ufw status
+```
+
 ## Repositorios
 
 ```bash
